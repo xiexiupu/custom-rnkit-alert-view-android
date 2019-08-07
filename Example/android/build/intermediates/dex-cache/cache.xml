@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/SimMan/Documents/Develop/ReactNative/node_modules/rnkit-alert-view/Example/android/app/build/intermediates/exploded-aar/Example/rnkit-alert-view/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="cf672b86470fc54d63c7bdedb4054ebbbd5780c6">
+        <dex dex="/Users/SimMan/Documents/Develop/ReactNative/node_modules/rnkit-alert-view/Example/android/app/build/intermediates/pre-dexed/debug/classes-e529dd42b0ecf45f6c32da1e0d7d358a721c6568.jar" />
+    </item>
+
+</items>
