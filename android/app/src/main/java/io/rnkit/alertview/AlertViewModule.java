@@ -153,8 +153,12 @@ public class AlertViewModule extends ReactContextBaseJavaModule implements Appli
                             array.pushInt(position);
                             retCallback.invoke(array);
                             retCallback = null;
-                            //发送完毕 销毁Dialog
-                            mAlertView.dismiss();
+
+                            //不是输入框类型的那就销毁掉
+                            if (!args.getString(TYPE).equals("plain-text")) {
+                                //发送完毕 销毁Dialog
+                                mAlertView.dismiss();
+                            }
                         }
 
                         if (args.getString(TYPE).equals("plain-text") && null != etName) {
