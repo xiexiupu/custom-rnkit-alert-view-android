@@ -134,48 +134,30 @@ public class AlertViewModule extends ReactContextBaseJavaModule implements Appli
                     public void onItemClick(Object o, int position) {
 
                         Log.d(TAG, "onItemClick: " + args.getInt(DONEBUTTONKEY));
-                        try {
-                            //如果是点击的取消按钮
-//                            if (args.getInt(DONEBUTTONKEY) != position && args.getString(TYPE).equals("plain-text")){
+
+                        //如果是 plain-text
+                        if (args.getString(TYPE).equals("plain-text") && null != etName) {
+                            String text = etName.getText().toString();
+                            //如果点击的是取消按钮
                             if (args.getInt(DONEBUTTONKEY) != position) {
-                                //点击取消按钮 销毁Dialog
+                                //告诉界面点击了按钮
+                                retCallback(retCallback, position);
                                 mAlertView.dismiss();
                                 return;
                             }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        if (retCallback != null) {
-                            //这一步是往JS 发送数据
-                            WritableArray array = Arguments.createArray();
-                            array.pushInt(position);
-                            retCallback.invoke(array);
-                            retCallback = null;
-
-                            //不是输入框类型的那就销毁掉
-                            if (!args.getString(TYPE).equals("plain-text")) {
-                                //发送完毕 销毁Dialog
-                                mAlertView.dismiss();
-                            }
-                        }
-
-                        if (args.getString(TYPE).equals("plain-text") && null != etName) {
-                            //在Type=plain-text的时候 发送数据回去
-
-                            String text = etName.getText().toString();
-
                             if (TextUtils.isEmpty(text)) {
                                 Toast.makeText(reactContext, args.getString(TITLE), Toast.LENGTH_LONG).show();
                                 return;
                             }
-                            //发送完毕 销毁Dialog
-                            mAlertView.dismiss();
+                            //告诉界面点击了按钮 把Text值返回给JS
                             WritableMap map = Arguments.createMap();
                             map.putString("text", text);
                             sendEvent(reactContext, "AlertViewEvent", map);
+                        } else {
+                            //告诉界面点击了按钮
+                            retCallback(retCallback, position);
                         }
+                        mAlertView.dismiss();
                     }
                 });
 
@@ -209,6 +191,15 @@ public class AlertViewModule extends ReactContextBaseJavaModule implements Appli
                 mAlertView.show();
             }
         });
+    }
+    private void retCallback(Callback retCallback,int position){
+        if (retCallback != null) {
+            //这一步是往JS 发送数据
+            WritableArray array = Arguments.createArray();
+            array.pushInt(position);
+            retCallback.invoke(array);
+            retCallback = null;
+        }
     }
 
     private void sendEvent(ReactContext reactContext,
